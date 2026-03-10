@@ -1,0 +1,18 @@
+body {
+    background: rgb(236, 209, 188);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.container {
+    background: rgb(228, 190, 160);
+}
+
+.adat {
+    background:rgb(191, 113, 54);
+    color:white;
+}
+
+.adat p {
+    margin:0px;
+    font-size:20px;
+}
