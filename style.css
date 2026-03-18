@@ -20,3 +20,13 @@ body {
 td {
     max-width: 40px;
 }
+
+.gomb, .adat {
+    letter-spacing: 1px;
+}
+
+.gomb {
+    background-color: rgb(111, 66, 31);
+    border: none;
+    letter-spacing: 3px;
+}
