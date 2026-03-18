@@ -28,9 +28,10 @@ td {
 
 .gomb {
     background-color: rgb(111, 66, 31);
-    border: none;
+    border: rgb(111, 66, 31) 1px solid !important;
     letter-spacing: 3px;
 }
 button:hover {
     background:rgb(191, 113, 54) !important ;
+    
 }
