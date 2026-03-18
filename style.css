@@ -3,8 +3,9 @@ body {
     font-family: 'Times New Roman', Times, serif;
 }
 
-.container {
-    background: rgb(228, 190, 160);
+.szin {
+    background-color: rgb(228, 190, 160);
+    border: none;
 }
 
 .adat {
@@ -29,4 +30,7 @@ td {
     background-color: rgb(111, 66, 31);
     border: none;
     letter-spacing: 3px;
+}
+button:hover {
+    background:rgb(191, 113, 54) !important ;
 }
