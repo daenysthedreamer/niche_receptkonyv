@@ -69,14 +69,14 @@
             el.addEventListener("focus", () => {
                 if (el.innerText === text) {
                     el.innerText = "";
-                    el.style.color = "black";
+                    el.style.color = "white";
                 }
             });
 
             el.addEventListener("blur", () => {
                 if (el.innerText.trim() === "") {
                     el.innerText = text;
-                    el.style.color = "gray";
+                    el.style.color = "white";
                 }
             });
         }
@@ -114,10 +114,10 @@
             hozzavalok = [];
 
             document.getElementById("etelNeve").innerText = "Cím neve";
-            document.getElementById("etelNeve").style.color = "gray";
+            document.getElementById("etelNeve").style.color = "grawhite";
 
             document.getElementById("etelLeiras").innerText = "Leírás";
-            document.getElementById("etelLeiras").style.color = "gray";
+            document.getElementById("etelLeiras").style.color = "grawhite";
 
             hozzavalokMegjelenit();
             megjelenit();
@@ -128,10 +128,10 @@
             hozzavalok = [];
 
             document.getElementById("etelNeve").innerText = "Cím neve";
-            document.getElementById("etelNeve").style.color = "gray";
+            document.getElementById("etelNeve").style.color = "grawhite";
 
             document.getElementById("etelLeiras").innerText = "Leírás";
-            document.getElementById("etelLeiras").style.color = "gray";
+            document.getElementById("etelLeiras").style.color = "grawhite";
 
             hozzavalokMegjelenit();
         });
@@ -206,10 +206,10 @@
             const r = receptek[index];
 
             document.getElementById("etelNeve").innerText = r.nev || "Cím neve";
-            document.getElementById("etelNeve").style.color = r.nev ? "black" : "gray";
+            document.getElementById("etelNeve").style.color = r.nev ? "black" : "grawhite";
 
             document.getElementById("etelLeiras").innerText = r.leiras || "Leírás";
-            document.getElementById("etelLeiras").style.color = r.leiras ? "black" : "gray";
+            document.getElementById("etelLeiras").style.color = r.leiras ? "black" : "grawhite";
 
             hozzavalok = JSON.parse(JSON.stringify(r.hozzavalok || []));
             aktivIndex = index;
