@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receptkönyv</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,71 +16,179 @@
             <img src="kenyéricon.png" alt="" height="50">
             <span class="fs-4">Receptkönyv</span>
         </div>
-    
+
         <div class="d-flex gap-2">
             <button class="btn btn-primary fs-5 gomb px-3">Regisztráció</button>
             <button class="btn btn-primary fs-5 gomb px-3">Bejelentkezés</button>
         </div>
-    
+
     </div>
 
     <div class="container shadow szin px-2 py-1">
         <div class="row p-3 mb-3">
             <div class="adat col shadow rounded-3 p-3">
                 <center>
-                    <p id="etelNeve">Lorem, ipsum.</p>
+                    <p id="etelNeve" contenteditable="true">Írd ide a recept nevét</p>
                 </center>
             </div>
         </div>
 
         <div class="row p-3 g-4">
             <div class="col-6">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td class="adat shadow rounded-3 mx-1">Liszt</td>
-                            <td class="adat shadow rounded-3 mx-1">300g</td>
-                            <td class="shadow rounded-3 mx-1"><button class="btn btn-danger">🗑️</button></td>
-                        </tr>
-                    </tbody>
+                <table class="w-100">
+                    <tbody id="hozzavalokTabla"></tbody>
                 </table>
-            </div>
-            <div class="adat col-6 shadow rounded-3 p-3">
-                <p id="etelLeiras" class="py-3 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et
-                    illo nam ea
-                    iure provident perspiciatis reiciendis? Nemo cupiditate tempore soluta alias nihil nobis consectetur
-                    eveniet, rerum vero illum facilis similique totam minus? Rerum, necessitatibus modi repellat alias
-                    accusamus magni atque provident placeat dignissimos obcaecati voluptatum odit iste doloremque
-                    consequatur dolore!</p>
 
+                <button id="ujHozzavalo" class="btn btn-success mt-2">➕ Hozzávaló</button>
+            </div>
+
+            <div class="adat col-6 shadow rounded-3 p-3">
+                <p id="etelLeiras" contenteditable="true" class="py-3 text-justify">
+                    Írd ide a leírást...
+                </p>
             </div>
 
             <div class="row p-3 g-4">
-                <div class="col">
-                    <center>
-                        <button class="btn btn-primary fs-3 fw-bold gomb">➕</button>
-                    </center>
-                </div>
-                <div class="col">
-                    <center>
-                        <button class="btn btn-primary fs-3 gomb px-3">Mentés</button>
-                    </center>
+                <div class="col text-center">
+                    <button id="mentesGomb" class="btn btn-primary fs-3 gomb px-3">Mentés</button>
+                    <button id="ujReceptGomb" class="btn btn-primary fs-3 gomb px-3 ms-3">Új recept</button>
                 </div>
             </div>
         </div>
-        <div class="m-3 p-2 adat rounded-3">
-            <div class="p-2">
-                <div class="col gomb p-2 rounded-3 text-center w-100">Lorem ipsum, dolor sit amet consectetur
-                    adipisicing
-                    elit.</div>
-                    <button class="btn btn-primary fs-4 gomb px-4 mt-3">Új recept</button>
-            </div>
 
-        </div>
+        <div id="receptekLista" class="m-3 p-2 adat rounded-3"></div>
     </div>
 
     <script>
+        let receptek = JSON.parse(localStorage.getItem("receptek")) || [];
+        let hozzavalok = [];
+        let aktivIndex = null;
 
+        megjelenit();
+        hozzavalokMegjelenit();
+
+        document.getElementById("ujHozzavalo").addEventListener("click", function () {
+            hozzavalok.push({ nev: "", mennyiseg: "" });
+            hozzavalokMegjelenit();
+        });
+
+        document.getElementById("mentesGomb").addEventListener("click", function () {
+            const nev = document.getElementById("etelNeve").innerText;
+            const leiras = document.getElementById("etelLeiras").innerText;
+
+            const recept = {
+                nev: nev,
+                leiras: leiras,
+                hozzavalok: hozzavalok
+            };
+
+            if (aktivIndex === null) {
+                receptek.push(recept);
+            } else {
+                receptek[aktivIndex] = recept;
+            }
+
+            localStorage.setItem("receptek", JSON.stringify(receptek));
+
+            aktivIndex = null;
+            hozzavalok = [];
+
+            document.getElementById("etelNeve").innerText = "Írd ide a recept nevét";
+            document.getElementById("etelLeiras").innerText = "Írd ide a leírást...";
+
+            hozzavalokMegjelenit();
+            megjelenit();
+        });
+
+        document.getElementById("ujReceptGomb").addEventListener("click", function () {
+            aktivIndex = null;
+            hozzavalok = [];
+
+            document.getElementById("etelNeve").innerText = "Írd ide a recept nevét";
+            document.getElementById("etelLeiras").innerText = "Írd ide a leírást...";
+
+            hozzavalokMegjelenit();
+        });
+
+        function hozzavalokMegjelenit() {
+            const tabla = document.getElementById("hozzavalokTabla");
+            tabla.innerHTML = "";
+
+            hozzavalok.forEach((h, index) => {
+                tabla.innerHTML += `
+                    <tr>
+                        <td>
+                            <input type="text" value="${h.nev}" 
+                            onchange="updateNev(${index}, this.value)"
+                            class="form-control">
+                        </td>
+
+                        <td>
+                            <input type="text" value="${h.mennyiseg}" 
+                            onchange="updateMenny(${index}, this.value)"
+                            class="form-control">
+                        </td>
+
+                        <td>
+                            <button onclick="torolHozzavalo(${index})" 
+                            class="btn btn-danger">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateNev(index, value) {
+            hozzavalok[index].nev = value;
+        }
+
+        function updateMenny(index, value) {
+            hozzavalok[index].mennyiseg = value;
+        }
+
+        function torolHozzavalo(index) {
+            hozzavalok.splice(index, 1);
+            hozzavalokMegjelenit();
+        }
+
+        function megjelenit() {
+            const lista = document.getElementById("receptekLista");
+            lista.innerHTML = "";
+
+            receptek.forEach((recept, index) => {
+                lista.innerHTML += `
+                    <div class="p-2 mb-2 gomb rounded-3 text-center">
+                        <h4>${recept.nev}</h4>
+
+                        <button onclick="megtekint(${index})" class="btn btn-light mt-2">
+                            Megtekintés
+                        </button>
+
+                        <button onclick="torol(${index})" class="btn btn-danger mt-2">
+                            Törlés
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        function megtekint(index) {
+            const r = receptek[index];
+
+            document.getElementById("etelNeve").innerText = r.nev;
+            document.getElementById("etelLeiras").innerText = r.leiras;
+
+            hozzavalok = JSON.parse(JSON.stringify(r.hozzavalok || []));
+            aktivIndex = index;
+
+            hozzavalokMegjelenit();
+        }
+
+        function torol(index) {
+            receptek.splice(index, 1);
+            localStorage.setItem("receptek", JSON.stringify(receptek));
+            megjelenit();
+        }
     </script>
 </body>
 
