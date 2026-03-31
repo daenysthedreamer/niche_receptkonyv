@@ -27,7 +27,7 @@
     <div class="container shadow szin px-2 py-1">
         <div class="row p-3 mb-3">
             <div class="adat col shadow rounded-3 p-3 text-center">
-                <p id="etelNeve" contenteditable="true" style="color:rgb(255, 255, 255);">Cím neve</p>
+                <p id="etelNeve" contenteditable="true" style="color:rgb(255, 255, 255);">Étel neve</p>
             </div>
         </div>
 
@@ -81,7 +81,7 @@
             });
         }
 
-        setupPlaceholder(document.getElementById("etelNeve"), "Cím neve");
+        setupPlaceholder(document.getElementById("etelNeve"), "Étel neve");
         setupPlaceholder(document.getElementById("etelLeiras"), "Leírás");
 
         document.getElementById("ujHozzavalo").addEventListener("click", function () {
@@ -93,7 +93,7 @@
             let nev = document.getElementById("etelNeve").innerText;
             let leiras = document.getElementById("etelLeiras").innerText;
 
-            if (nev === "Cím neve") nev = "";
+            if (nev === "Étel neve") nev = "";
             if (leiras === "Leírás") leiras = "";
 
             const recept = {
@@ -113,11 +113,11 @@
             aktivIndex = null;
             hozzavalok = [];
 
-            document.getElementById("etelNeve").innerText = "Cím neve";
-            document.getElementById("etelNeve").style.color = "grawhite";
+            document.getElementById("etelNeve").innerText = "Étel neve";
+            document.getElementById("etelNeve").style.color = "white";
 
             document.getElementById("etelLeiras").innerText = "Leírás";
-            document.getElementById("etelLeiras").style.color = "grawhite";
+            document.getElementById("etelLeiras").style.color = "white";
 
             hozzavalokMegjelenit();
             megjelenit();
@@ -127,11 +127,11 @@
             aktivIndex = null;
             hozzavalok = [];
 
-            document.getElementById("etelNeve").innerText = "Cím neve";
-            document.getElementById("etelNeve").style.color = "grawhite";
+            document.getElementById("etelNeve").innerText = "Étel neve";
+            document.getElementById("etelNeve").style.color = "white";
 
             document.getElementById("etelLeiras").innerText = "Leírás";
-            document.getElementById("etelLeiras").style.color = "grawhite";
+            document.getElementById("etelLeiras").style.color = "white";
 
             hozzavalokMegjelenit();
         });
@@ -142,29 +142,31 @@
 
             hozzavalok.forEach((h, index) => {
                 tabla.innerHTML += `
-                    <tr>
-                        <td>
-                            <input type="text" value="${h.nev}" 
-                            placeholder="termék"
-                            onchange="updateNev(${index}, this.value)"
-                            class="form-control">
-                        </td>
+    <tr>
+        <td>
+            <input type="text" value="${h.nev}" 
+            placeholder="termék"
+            onchange="updateNev(${index}, this.value)"
+            class="form-control"
+            style="background-color: rgb(191, 113, 54); color: white; border: none;">
+        </td>
 
-                        <td>
-                            <input type="number" value="${h.mennyiseg}" 
-                            placeholder="mennyiség (kg)"
-                            min="0"
-                            step="any"
-                            onchange="updateMenny(${index}, this.value)"
-                            class="form-control">
-                        </td>
+        <td>
+            <input type="number" value="${h.mennyiseg}" 
+            placeholder="mennyiség (kg)"
+            min="0"
+            step="any"
+            onchange="updateMenny(${index}, this.value)"
+            class="form-control"
+            style="background-color: rgb(191, 113, 54); color: white; border: none;">
+        </td>
 
-                        <td>
-                            <button onclick="torolHozzavalo(${index})" 
-                            class="btn btn-danger">🗑️</button>
-                        </td>
-                    </tr>
-                `;
+        <td>
+            <button onclick="torolHozzavalo(${index})" 
+            class="btn btn-danger">🗑️</button>
+        </td>
+    </tr>
+`;
             });
         }
 
@@ -205,11 +207,11 @@
         function megtekint(index) {
             const r = receptek[index];
 
-            document.getElementById("etelNeve").innerText = r.nev || "Cím neve";
-            document.getElementById("etelNeve").style.color = r.nev ? "black" : "grawhite";
+            document.getElementById("etelNeve").innerText = r.nev || "Étel neve";
+            document.getElementById("etelNeve").style.color = r.nev ? "black" : "white";
 
             document.getElementById("etelLeiras").innerText = r.leiras || "Leírás";
-            document.getElementById("etelLeiras").style.color = r.leiras ? "black" : "grawhite";
+            document.getElementById("etelLeiras").style.color = r.leiras ? "black" : "white";
 
             hozzavalok = JSON.parse(JSON.stringify(r.hozzavalok || []));
             aktivIndex = index;
