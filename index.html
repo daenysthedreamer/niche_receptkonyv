@@ -90,10 +90,15 @@
         });
 
         document.getElementById("mentesGomb").addEventListener("click", function () {
-            let nev = document.getElementById("etelNeve").innerText;
-            let leiras = document.getElementById("etelLeiras").innerText;
+            let nev = document.getElementById("etelNeve").innerText.trim();
+            let leiras = document.getElementById("etelLeiras").innerText.trim();
 
-            if (nev === "Étel neve") nev = "";
+            // Ellenőrzés: ha nincs cím, alert és kilépés
+            if (nev === "" || nev === "Étel neve") {
+                alert("Adjon nevet a receptnek!");
+                return; // nem menti el
+            }
+
             if (leiras === "Leírás") leiras = "";
 
             const recept = {
@@ -189,18 +194,18 @@
 
             receptek.forEach((recept, index) => {
                 lista.innerHTML += `
-                    <div class="p-2 mb-2 gomb rounded-3 text-center">
-                        <h4>${recept.nev}</h4>
-
-                        <button onclick="megtekint(${index})" class="btn btn-light mt-2">
-                            Megtekintés
-                        </button>
-
-                        <button onclick="torol(${index})" class="btn btn-danger mt-2">
-                            Törlés
-                        </button>
-                    </div>
-                `;
+            <div class="p-2 mb-2 gomb rounded-3 d-flex justify-content-center align-items-center position-relative">
+                <h4 class="mb-0 text-center flex-grow-1">${recept.nev}</h4>
+                <div class="d-flex gap-2 position-absolute end-0 me-2">
+                    <button onclick="megtekint(${index})" class="btn btn-light">
+                        Megtekintés
+                    </button>
+                    <button onclick="torol(${index})" class="btn btn-danger">
+                        Törlés
+                    </button>
+                </div>
+            </div>
+        `;
             });
         }
 
