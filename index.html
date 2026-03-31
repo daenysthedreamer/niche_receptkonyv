@@ -26,10 +26,8 @@
 
     <div class="container shadow szin px-2 py-1">
         <div class="row p-3 mb-3">
-            <div class="adat col shadow rounded-3 p-3">
-                <center>
-                    <p id="etelNeve" contenteditable="true">Írd ide a recept nevét</p>
-                </center>
+            <div class="adat col shadow rounded-3 p-3 text-center">
+                <p id="etelNeve" contenteditable="true" style="color:rgb(255, 255, 255);">Cím neve</p>
             </div>
         </div>
 
@@ -39,12 +37,12 @@
                     <tbody id="hozzavalokTabla"></tbody>
                 </table>
 
-                <button id="ujHozzavalo" class="btn btn-success mt-2">➕ Hozzávaló</button>
+                <button id="ujHozzavalo" class="btn btn-success mt-2">➕</button>
             </div>
 
             <div class="adat col-6 shadow rounded-3 p-3">
-                <p id="etelLeiras" contenteditable="true" class="py-3 text-justify">
-                    Írd ide a leírást...
+                <p id="etelLeiras" contenteditable="true" class="py-3" style="color:rgb(255, 255, 255);">
+                    Leírás
                 </p>
             </div>
 
@@ -67,19 +65,41 @@
         megjelenit();
         hozzavalokMegjelenit();
 
+        function setupPlaceholder(el, text) {
+            el.addEventListener("focus", () => {
+                if (el.innerText === text) {
+                    el.innerText = "";
+                    el.style.color = "black";
+                }
+            });
+
+            el.addEventListener("blur", () => {
+                if (el.innerText.trim() === "") {
+                    el.innerText = text;
+                    el.style.color = "gray";
+                }
+            });
+        }
+
+        setupPlaceholder(document.getElementById("etelNeve"), "Cím neve");
+        setupPlaceholder(document.getElementById("etelLeiras"), "Leírás");
+
         document.getElementById("ujHozzavalo").addEventListener("click", function () {
             hozzavalok.push({ nev: "", mennyiseg: "" });
             hozzavalokMegjelenit();
         });
 
         document.getElementById("mentesGomb").addEventListener("click", function () {
-            const nev = document.getElementById("etelNeve").innerText;
-            const leiras = document.getElementById("etelLeiras").innerText;
+            let nev = document.getElementById("etelNeve").innerText;
+            let leiras = document.getElementById("etelLeiras").innerText;
+
+            if (nev === "Cím neve") nev = "";
+            if (leiras === "Leírás") leiras = "";
 
             const recept = {
-                nev: nev,
-                leiras: leiras,
-                hozzavalok: hozzavalok
+                nev,
+                leiras,
+                hozzavalok
             };
 
             if (aktivIndex === null) {
@@ -93,8 +113,11 @@
             aktivIndex = null;
             hozzavalok = [];
 
-            document.getElementById("etelNeve").innerText = "Írd ide a recept nevét";
-            document.getElementById("etelLeiras").innerText = "Írd ide a leírást...";
+            document.getElementById("etelNeve").innerText = "Cím neve";
+            document.getElementById("etelNeve").style.color = "gray";
+
+            document.getElementById("etelLeiras").innerText = "Leírás";
+            document.getElementById("etelLeiras").style.color = "gray";
 
             hozzavalokMegjelenit();
             megjelenit();
@@ -104,8 +127,11 @@
             aktivIndex = null;
             hozzavalok = [];
 
-            document.getElementById("etelNeve").innerText = "Írd ide a recept nevét";
-            document.getElementById("etelLeiras").innerText = "Írd ide a leírást...";
+            document.getElementById("etelNeve").innerText = "Cím neve";
+            document.getElementById("etelNeve").style.color = "gray";
+
+            document.getElementById("etelLeiras").innerText = "Leírás";
+            document.getElementById("etelLeiras").style.color = "gray";
 
             hozzavalokMegjelenit();
         });
@@ -119,12 +145,16 @@
                     <tr>
                         <td>
                             <input type="text" value="${h.nev}" 
+                            placeholder="termék"
                             onchange="updateNev(${index}, this.value)"
                             class="form-control">
                         </td>
 
                         <td>
-                            <input type="text" value="${h.mennyiseg}" 
+                            <input type="number" value="${h.mennyiseg}" 
+                            placeholder="mennyiség (kg)"
+                            min="0"
+                            step="any"
                             onchange="updateMenny(${index}, this.value)"
                             class="form-control">
                         </td>
@@ -175,8 +205,11 @@
         function megtekint(index) {
             const r = receptek[index];
 
-            document.getElementById("etelNeve").innerText = r.nev;
-            document.getElementById("etelLeiras").innerText = r.leiras;
+            document.getElementById("etelNeve").innerText = r.nev || "Cím neve";
+            document.getElementById("etelNeve").style.color = r.nev ? "black" : "gray";
+
+            document.getElementById("etelLeiras").innerText = r.leiras || "Leírás";
+            document.getElementById("etelLeiras").style.color = r.leiras ? "black" : "gray";
 
             hozzavalok = JSON.parse(JSON.stringify(r.hozzavalok || []));
             aktivIndex = index;
