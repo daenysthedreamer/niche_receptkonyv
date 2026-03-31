@@ -208,10 +208,10 @@
             const r = receptek[index];
 
             document.getElementById("etelNeve").innerText = r.nev || "Étel neve";
-            document.getElementById("etelNeve").style.color = r.nev ? "black" : "white";
+            document.getElementById("etelNeve").style.color = "white"; // mindig fehér
 
             document.getElementById("etelLeiras").innerText = r.leiras || "Leírás";
-            document.getElementById("etelLeiras").style.color = r.leiras ? "black" : "white";
+            document.getElementById("etelLeiras").style.color = "white"; // mindig fehér
 
             hozzavalok = JSON.parse(JSON.stringify(r.hozzavalok || []));
             aktivIndex = index;
