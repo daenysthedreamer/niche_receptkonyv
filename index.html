@@ -37,7 +37,7 @@
                     <tbody id="hozzavalokTabla"></tbody>
                 </table>
 
-                <button id="ujHozzavalo" class="btn btn-success mt-2">➕</button>
+                <button id="ujHozzavalo" class="btn mt-2">➕</button>
             </div>
 
             <div class="adat col-6 shadow rounded-3 p-3">
@@ -150,15 +150,15 @@
     <tr>
         <td>
             <input type="text" value="${h.nev}" 
-            placeholder="termék"
+            placeholder="Hozzávaló"
             onchange="updateNev(${index}, this.value)"
             class="form-control"
             style="background-color: rgb(191, 113, 54); color: white; border: none;">
         </td>
 
         <td>
-            <input type="number" value="${h.mennyiseg}" 
-            placeholder="mennyiség (kg)"
+            <input type="text" value="${h.mennyiseg}" 
+            placeholder="Mennyiség (kg)"
             min="0"
             step="any"
             onchange="updateMenny(${index}, this.value)"
@@ -200,7 +200,7 @@
                     <button onclick="megtekint(${index})" class="btn btn-light">
                         Megtekintés
                     </button>
-                    <button onclick="torol(${index})" class="btn btn-danger">
+                    <button onclick="torol(${index})" class="btntorles">
                         Törlés
                     </button>
                 </div>

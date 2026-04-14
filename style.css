@@ -25,6 +25,12 @@ td {
 .gomb, .adat {
     letter-spacing: 1px;
 }
+.btntorles{
+    background:rgb(191, 113, 54);
+    border: rgb(111, 66, 31) 1px solid !important;
+    border-radius: 7px;
+    letter-spacing: 3px;
+}
 
 .gomb {
     background-color: rgb(111, 66, 31);
