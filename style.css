@@ -35,3 +35,84 @@ button:hover {
     background:rgb(191, 113, 54) !important ;
     
 }
+
+.modal {
+    backdrop-filter: blur(3px);
+}
+
+
+.modal-content {
+    background-color: #ddd;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+
+.modal-header {
+    border-bottom: none;
+}
+
+
+.modal-title {
+    font-weight: bold;
+}
+
+
+.modal-body input {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    
+}
+
+
+.modal-footer .btn {
+    border-radius: 10px;
+}
+
+
+.btn-close {
+    filter: invert(0.3);
+}
+
+.modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+.modal-content {
+    background:rgb(191, 113, 54) !important ;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+
+.modal-header {
+    border-bottom: none;
+}
+
+
+.modal-footer {
+    border-top: none;
+}
+
+
+.modal-body input {
+    border-radius: 10px;
+    border: 1px solid sandybrown;
+    
+}
+
+.modal .btn {
+    border-radius: 10px;
+}
+
+
+.btn-close {
+    opacity: 0.6;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
