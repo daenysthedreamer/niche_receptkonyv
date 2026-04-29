@@ -10,6 +10,8 @@
 </head>
 
 <body class="mt-0">
+
+    
     <div class="adat d-flex flex-column flex-md-row align-items-center justify-content-between min-vw-100 p-2 mb-4">
 
         <div class="d-flex align-items-center gap-2 mb-2 mb-md-0">
@@ -24,39 +26,50 @@
 
     </div>
 
-    <div class="container shadow szin px-2 py-1">
-        <div class="row p-3 mb-3">
-            <div class="adat col shadow rounded-3 p-3 text-center">
-                <p id="etelNeve" contenteditable="true" style="color:rgb(255, 255, 255);">Étel neve</p>
-            </div>
-        </div>
+    
+    <main>
 
-        <div class="row p-3 g-4">
-            <div class="col-6">
-                <table class="w-100">
-                    <tbody id="hozzavalokTabla"></tbody>
-                </table>
-
-                <button id="ujHozzavalo" class="btn mt-2">➕</button>
-            </div>
-
-            <div class="adat col-6 shadow rounded-3 p-3">
-                <p id="etelLeiras" contenteditable="true" class="py-3" style="color:rgb(255, 255, 255);">
-                    Leírás
-                </p>
+        <div class="container shadow szin px-2 py-1 hezag">
+            <div class="row p-3 mb-3">
+                <div class="adat col shadow rounded-3 p-3 text-center">
+                    <p id="etelNeve" contenteditable="true" style="color:rgb(255, 255, 255);">Étel neve</p>
+                </div>
             </div>
 
             <div class="row p-3 g-4">
-                <div class="col text-center">
-                    <button id="mentesGomb" class="btn btn-primary fs-3 gomb px-3">Mentés</button>
-                    <button id="ujReceptGomb" class="btn btn-primary fs-3 gomb px-3 ms-3">Új recept</button>
+                <div class="col-6">
+                    <table class="w-100">
+                        <tbody id="hozzavalokTabla"></tbody>
+                    </table>
+
+                    <button id="ujHozzavalo" class="btn mt-2">➕</button>
+                </div>
+
+                <div class="adat col-6 shadow rounded-3 p-3">
+                    <p id="etelLeiras" contenteditable="true" class="py-3" style="color:rgb(255, 255, 255);">
+                        Leírás
+                    </p>
+                </div>
+
+                <div class="row p-3 g-4">
+                    <div class="col text-center">
+                        <button id="mentesGomb" class="btn btn-primary fs-3 gomb px-3">Mentés</button>
+                        <button id="ujReceptGomb" class="btn btn-primary fs-3 gomb px-3 ms-3">Új recept</button>
+                    </div>
                 </div>
             </div>
+
+            <div id="receptekLista" class="m-3 p-2 adat rounded-3"></div>
         </div>
 
-        <div id="receptekLista" class="m-3 p-2 adat rounded-3"></div>
-    </div>
+    </main>
 
+   
+    <div class="footer-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path d="M0,50 C240,90 480,10 720,50 C960,90 1200,10 1440,50 V100 H0 Z"></path>
+        </svg>
+    </div>
     <script>
         let receptek = JSON.parse(localStorage.getItem("receptek")) || [];
         let hozzavalok = [];
@@ -93,10 +106,10 @@
             let nev = document.getElementById("etelNeve").innerText.trim();
             let leiras = document.getElementById("etelLeiras").innerText.trim();
 
-            // Ellenőrzés: ha nincs cím, alert és kilépés
+            
             if (nev === "" || nev === "Étel neve") {
                 alert("Adjon nevet a receptnek!");
-                return; // nem menti el
+                return; 
             }
 
             if (leiras === "Leírás") leiras = "";
@@ -213,10 +226,10 @@
             const r = receptek[index];
 
             document.getElementById("etelNeve").innerText = r.nev || "Étel neve";
-            document.getElementById("etelNeve").style.color = "white"; // mindig fehér
+            document.getElementById("etelNeve").style.color = "white"; 
 
             document.getElementById("etelLeiras").innerText = r.leiras || "Leírás";
-            document.getElementById("etelLeiras").style.color = "white"; // mindig fehér
+            document.getElementById("etelLeiras").style.color = "white"; 
 
             hozzavalok = JSON.parse(JSON.stringify(r.hozzavalok || []));
             aktivIndex = index;
@@ -230,6 +243,57 @@
             megjelenit();
         }
     </script>
-</body>
+    
+    <footer class="footer-wave" role="contentinfo">
+        <div class="container-fluid">
+            <div class="footer-wave__main-grid">
 
+                <div class="footer-wave__logo d-flex align-items-center justify-content-center kepp">
+                    <img src="kenyéricon.png" alt="" width="100px ">
+                </div>
+
+                <div class="footer-wave__about">
+                    <h3 class="footer-wave__heading">Rólunk</h3>
+                    <p>A Receptkönyv egy modern, könnyen használható platform, ahol kedvenc receptjeidet gyűjtheted és rendszerezheted. Célunk, hogy az otthoni főzés egyszerűbb és élvezetesebb legyen mindenki számára.</p>
+                </div>
+
+                <div class="footer-wave__links">
+                    <h3 class="footer-wave__heading">Navigáció</h3>
+                    <ul>
+                        <li><a href="#">Főoldal</a></li>
+                        <li><a href="#">Receptek</a></li>
+                        <li><a href="#">Új recept</a></li>
+                        <li><a href="#">Kapcsolat</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-wave__links">
+                    <h3 class="footer-wave__heading">Tartalom</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Gyakori kérdések</a></li>
+                        <li><a href="#">Segítség</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-wave__links">
+                    <h3 class="footer-wave__heading">Jogi információk</h3>
+                    <ul>
+                        <li><a href="#">Adatvédelmi irányelvek</a></li>
+                        <li><a href="#">Felhasználási feltételek</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-wave__bottom">
+                <p class="footer-wave__copyright lablec">
+                    &copy; 2026 Receptkönyv. Minden jog fenntartva.
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
 </html>
