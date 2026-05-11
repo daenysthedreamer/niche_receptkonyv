@@ -45,6 +45,11 @@ main {
 }
 
 .form-control::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+.modal-body input::placeholder {
     color: gray;
     opacity: 0.8;
 }
