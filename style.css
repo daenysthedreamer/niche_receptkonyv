@@ -280,3 +280,44 @@ main {
 .collapse-content {
     font-size: 0.95rem;
 }
+.collapse-box {
+    margin-top: 10px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.card {
+    overflow: hidden;
+}
+
+.card button {
+    transition: 0.2s;
+}
+
+.card button:hover {
+    transform: scale(1.02);
+}
+#searchInput {
+    box-shadow: none !important;
+}
+
+.input-group {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.input-group .form-control {
+    padding: 14px;
+    font-size: 16px;
+}
+
+.dropdown-menu {
+    border-radius: 12px;
+    padding: 6px;
+}
+
+.dropdown-item {
+    border-radius: 8px;
+}

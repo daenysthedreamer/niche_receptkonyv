@@ -17,28 +17,59 @@
 
 
     <div class="adat d-flex flex-column flex-md-row align-items-center justify-content-between min-vw-100 p-2 mb-4">
+
         <div class="d-flex align-items-center gap-2 mb-2 mb-md-0">
             <img src="kenyéricon.png" alt="" height="50">
             <span class="fs-4">Receptkönyv</span>
         </div>
-
-        <div class="d-flex gap-2" id="userButtons">
-            <button class="btn btn-primary fs-5 gomb px-3" data-bs-toggle="modal" data-bs-target="#registerModal">
-                Regisztráció
-            </button>
-            <button class="btn btn-primary fs-5 gomb px-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-                Bejelentkezés
-            </button>
-
+    
+        
+        <div class="d-flex align-items-center ms-auto gap-2">
+    
+            
             <button class="btn btn-primary fs-5 gomb px-3">
                 <a href="index.html" style="text-decoration: none; color: white;">Főoldal</a>
             </button>
+    
+            <div class="d-flex gap-2" id="userButtons">
+                <button class="btn btn-primary fs-5 gomb px-3" data-bs-toggle="modal" data-bs-target="#registerModal">
+                    Regisztráció
+                </button>
+                <button class="btn btn-primary fs-5 gomb px-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Bejelentkezés
+                </button>
+            </div>
+    
         </div>
     </div>
-
-
     <main class="container mb-5">
         <h1 class="text-center mb-4 adat p-3 rounded-3">Összes recept</h1>
+
+
+        <div class="container mb-3">
+            <div class="input-group input-group-lg shadow-sm rounded-3 overflow-hidden">
+        
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="form-control border-0"
+                    placeholder="Keresés recept neve, leírás vagy hozzávaló...">
+        
+                <button class="btn btn-outline-secondary dropdown-toggle" 
+                        type="button" 
+                        data-bs-toggle="dropdown">
+                    Szűrés
+                </button>
+        
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><button class="dropdown-item" onclick="setFilter('all')">Összes</button></li>
+                    <li><button class="dropdown-item" onclick="setFilter('leves')">Levesek</button></li>
+                    <li><button class="dropdown-item" onclick="setFilter('desszert')">Desszertek</button></li>
+                    <li><button class="dropdown-item" onclick="setFilter('foetel')">Főételek</button></li>
+                </ul>
+        
+            </div>
+        </div>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="receptekGrid">
 
@@ -102,7 +133,7 @@
         </div>
     </footer>
 
-    
+
     <div class="modal fade" id="registerModal">
 
         <div class="modal-dialog modal-dialog-centered">
@@ -179,13 +210,41 @@
         </div>
 
     </div>
- 
+
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        let currentFilter = "all";
+
+function setFilter(type) {
+    currentFilter = type;
+    applyFilters();
+}
+
+function applyFilters() {
+    const value = document.getElementById("searchInput").value.toLowerCase();
+
+    let filtered = receptek.filter(r =>
+        r.nev.toLowerCase().includes(value) ||
+        r.leiras.toLowerCase().includes(value) ||
+        r.hozzavalok.some(h => h.toLowerCase().includes(value))
+    );
+
+    if (currentFilter !== "all") {
+        filtered = filtered.filter(r =>
+            r.leiras.toLowerCase().includes(currentFilter) ||
+            r.nev.toLowerCase().includes(currentFilter)
+        );
+    }
+
+    renderReceptek(filtered);
+}
+
+document.getElementById("searchInput").addEventListener("input", applyFilters);
+
 
         document.addEventListener("DOMContentLoaded", function () {
 
@@ -382,6 +441,68 @@
             renderReceptek();
 
 
+        });
+
+        function renderReceptek(lista = receptek) {
+            const container = document.getElementById('receptekGrid');
+            container.innerHTML = '';
+
+            lista.forEach(recept => {
+                const cardHTML = `
+        <div class="col">
+            <div class="card h-100 recept-kartya shadow adat">
+
+                <img src="${recept.kep}" class="card-img-top recept-kep" alt="${recept.nev}">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title">${recept.nev}</h5>
+
+                    <p class="card-text flex-grow-1">${recept.leiras}</p>
+
+                    <button class="btn btn-light mb-2"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapse${recept.id}">
+                        Részletek ▼
+                    </button>
+
+                    <div class="collapse collapse-box" id="collapse${recept.id}">
+                        <strong>Hozzávalók:</strong>
+                        <ul class="small">
+                            ${recept.hozzavalok.map(h => `<li>${h}</li>`).join('')}
+                        </ul>
+
+                        <strong>Elkészítés:</strong>
+                        <p class="small">${recept.elkeszites}</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>`;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+
+        function setupFilter() {
+            const input = document.getElementById("searchInput");
+
+            input.addEventListener("input", function () {
+                const value = this.value.toLowerCase();
+
+                const filtered = receptek.filter(r =>
+                    r.nev.toLowerCase().includes(value) ||
+                    r.leiras.toLowerCase().includes(value) ||
+                    r.hozzavalok.some(h => h.toLowerCase().includes(value))
+                );
+
+                renderReceptek(filtered);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderReceptek();
+            setupFilter();
         });
     </script>
 </body>
