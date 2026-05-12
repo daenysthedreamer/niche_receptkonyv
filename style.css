@@ -257,3 +257,26 @@ main {
 .btn-close:hover {
     opacity: 1;
 }
+.adat {
+    background-color: rgb(191, 113, 54);
+    color: white;
+}
+.recept-kartya {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+.recept-kartya:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.recept-kep {
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.recept-kartya:hover .recept-kep {
+    transform: scale(1.08);
+}
+.collapse-content {
+    font-size: 0.95rem;
+}
