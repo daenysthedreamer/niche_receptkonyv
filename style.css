@@ -321,3 +321,6 @@ main {
 .dropdown-item {
     border-radius: 8px;
 }
+.input-group {
+    overflow: visible !important;
+}
