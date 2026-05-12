@@ -22,15 +22,15 @@
             <img src="kenyéricon.png" alt="" height="50">
             <span class="fs-4">Receptkönyv</span>
         </div>
-    
-        
+
+
         <div class="d-flex align-items-center ms-auto gap-2">
-    
-            
+
+
             <button class="btn btn-primary fs-5 gomb px-3">
                 <a href="index.html" style="text-decoration: none; color: white;">Főoldal</a>
             </button>
-    
+
             <div class="d-flex gap-2" id="userButtons">
                 <button class="btn btn-primary fs-5 gomb px-3" data-bs-toggle="modal" data-bs-target="#registerModal">
                     Regisztráció
@@ -39,7 +39,7 @@
                     Bejelentkezés
                 </button>
             </div>
-    
+
         </div>
     </div>
     <main class="container mb-5">
@@ -48,26 +48,22 @@
 
         <div class="container mb-3">
             <div class="input-group input-group-lg shadow-sm rounded-3 overflow-hidden">
-        
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    class="form-control border-0"
+
+                <input type="text" id="searchInput" class="form-control border-0"
                     placeholder="Keresés recept neve, leírás vagy hozzávaló...">
-        
-                <button class="btn btn-outline-secondary dropdown-toggle" 
-                        type="button" 
-                        data-bs-toggle="dropdown">
+
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                     Szűrés
                 </button>
-        
+
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><button class="dropdown-item" onclick="setFilter('all')">Összes</button></li>
                     <li><button class="dropdown-item" onclick="setFilter('leves')">Levesek</button></li>
                     <li><button class="dropdown-item" onclick="setFilter('desszert')">Desszertek</button></li>
                     <li><button class="dropdown-item" onclick="setFilter('foetel')">Főételek</button></li>
+                    <li><button class="dropdown-item" onclick="setFilter('vegán')">Vegán</button></li>
                 </ul>
-        
+
             </div>
         </div>
 
@@ -100,29 +96,41 @@
                 </div>
 
                 <div class="footer-wave__links">
+
                     <h3 class="footer-wave__heading">Navigáció</h3>
+
                     <ul>
-                        <li><a href="index.html">Főoldal</a></li>
+                        <li><a href="#">Főoldal</a></li>
                         <li><a href="receptek.html">Receptek</a></li>
-                        <li><a href="#">Új recept</a></li>
+                        <li><a href="index.html">Új recept</a></li>
+                        <li><a href="#">Kapcsolat</a></li>
                     </ul>
+
                 </div>
 
                 <div class="footer-wave__links">
+
                     <h3 class="footer-wave__heading">Tartalom</h3>
+
                     <ul>
                         <li><a href="#">Blog</a></li>
-                        <li><a href="#">Gyakori kérdések</a></li>
+                        <li><a href="https://www.gyakorikerdesek.hu/" target="_blank">Gyakori kérdések</a></li>
+                        <li><a href="https://sos116-123.hu/" target="_blank">Segítség</a></li>
                     </ul>
+
                 </div>
 
                 <div class="footer-wave__links">
+
                     <h3 class="footer-wave__heading">Jogi információk</h3>
+
                     <ul>
-                        <li><a href="#">Adatvédelmi irányelvek</a></li>
+                        <li><a href="https://policies.google.com/privacy?hl=hu" target="_blank">Adatvédelmi irányelvek</a></li>
                         <li><a href="#">Felhasználási feltételek</a></li>
                     </ul>
+
                 </div>
+
             </div>
 
             <div class="footer-wave__bottom">
@@ -219,31 +227,31 @@
     <script>
         let currentFilter = "all";
 
-function setFilter(type) {
-    currentFilter = type;
-    applyFilters();
-}
+        function setFilter(type) {
+            currentFilter = type;
+            applyFilters();
+        }
 
-function applyFilters() {
-    const value = document.getElementById("searchInput").value.toLowerCase();
+        function applyFilters() {
+            const value = document.getElementById("searchInput").value.toLowerCase();
 
-    let filtered = receptek.filter(r =>
-        r.nev.toLowerCase().includes(value) ||
-        r.leiras.toLowerCase().includes(value) ||
-        r.hozzavalok.some(h => h.toLowerCase().includes(value))
-    );
+            let filtered = receptek.filter(r =>
+                r.nev.toLowerCase().includes(value) ||
+                r.leiras.toLowerCase().includes(value) ||
+                r.hozzavalok.some(h => h.toLowerCase().includes(value))
+            );
 
-    if (currentFilter !== "all") {
-        filtered = filtered.filter(r =>
-            r.leiras.toLowerCase().includes(currentFilter) ||
-            r.nev.toLowerCase().includes(currentFilter)
-        );
-    }
+            if (currentFilter !== "all") {
+                filtered = filtered.filter(r =>
+                    r.leiras.toLowerCase().includes(currentFilter) ||
+                    r.nev.toLowerCase().includes(currentFilter)
+                );
+            }
 
-    renderReceptek(filtered);
-}
+            renderReceptek(filtered);
+        }
 
-document.getElementById("searchInput").addEventListener("input", applyFilters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
 
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -346,7 +354,7 @@ document.getElementById("searchInput").addEventListener("input", applyFilters);
                 id: 2,
                 nev: "Töltött káposzta",
                 kep: "https://cdn.mindmegette.hu/2024/04/0pyLxTE5eptk-pujflpxNT0Nu80bLxF_0jahFnueaJw/fill/0/0/no/1/aHR0cHM6Ly9jbXNjZG4uYXBwLmNvbnRlbnQucHJpdmF0ZS9jb250ZW50L2Y5YmU3MzJlMzI2OTQ5YmM4NzNhNzBlYWY0ZWUxNDZh.webp",
-                leiras: "Nagymama receptje szerint, télire tökéletes.",
+                leiras: "Nagymama receptje szerint, télire tökéletes. foetel",
                 hozzavalok: ["1 fej káposzta", "500g darált hús", "rizs", "fűszerek"],
                 elkeszites: "A káposzta leveleit leforrázzuk..."
             },
@@ -354,15 +362,15 @@ document.getElementById("searchInput").addEventListener("input", applyFilters);
                 id: 3,
                 nev: "Csirkepaprikás nokedlivel",
                 kep: "letöltés.jpg",
-                leiras: "Gyors, finom, család kedvence.",
+                leiras: "Gyors, finom, család kedvence, foetel",
                 hozzavalok: ["600g csirkecomb", "2 db paprika", "1 dl tejföl", "1 kk pirospaprika"],
-                elkeszites: "A húst megpirítjuk, paprikával ízesítjük..."
+                elkeszites: "A húst megpirítjuk, paprikával ízesítjük"
             },
             {
                 id: 4,
                 nev: "Mákos guba vaníliasodóval",
                 kep: "guba.jpg",
-                leiras: "Puha kifli szeletek édes mákkal és meleg vaníliasodóval leöntve, igazi klasszikus magyar desszert.",
+                leiras: "Puha kifli szeletek édes mákkal és meleg vaníliasodóval leöntve, igazi klasszikus magyar desszert.vegán",
                 hozzavalok: ["kifli", "darál mák", "cukor", "tej", "vanília", "tojás"],
                 elkeszites: "A kiflit felkarikázzuk, mákkal összekeverjük, majd vaníliasodóval meglocsolva sütőben átmelegítjük."
             },
@@ -444,11 +452,14 @@ document.getElementById("searchInput").addEventListener("input", applyFilters);
         });
 
         function renderReceptek(lista = receptek) {
-            const container = document.getElementById('receptekGrid');
-            container.innerHTML = '';
+    const container = document.getElementById('receptekGrid');
+    container.innerHTML = '';
 
-            lista.forEach(recept => {
-                const cardHTML = `
+    lista.forEach(recept => {
+
+        const collapseId = `collapse-${recept.id}`;
+
+        const cardHTML = `
         <div class="col">
             <div class="card h-100 recept-kartya shadow adat">
 
@@ -462,11 +473,11 @@ document.getElementById("searchInput").addEventListener("input", applyFilters);
 
                     <button class="btn btn-light mb-2"
                         data-bs-toggle="collapse"
-                        data-bs-target="#collapse${recept.id}">
+                        data-bs-target="#${collapseId}">
                         Részletek ▼
                     </button>
 
-                    <div class="collapse collapse-box" id="collapse${recept.id}">
+                    <div class="collapse collapse-box" id="${collapseId}">
                         <strong>Hozzávalók:</strong>
                         <ul class="small">
                             ${recept.hozzavalok.map(h => `<li>${h}</li>`).join('')}
@@ -479,9 +490,10 @@ document.getElementById("searchInput").addEventListener("input", applyFilters);
                 </div>
             </div>
         </div>`;
-                container.innerHTML += cardHTML;
-            });
-        }
+
+        container.innerHTML += cardHTML;
+    });
+}
 
 
         function setupFilter() {
