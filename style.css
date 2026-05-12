@@ -9,7 +9,7 @@ body::-webkit-scrollbar {
 }
 
 .form-control::placeholder {
-    color: white;
+    color: black;
     opacity: 1;
 }
 
