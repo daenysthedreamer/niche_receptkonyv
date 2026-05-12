@@ -9,7 +9,7 @@ body::-webkit-scrollbar {
 }
 
 .form-control::placeholder {
-    color: black;
+    color: white;
     opacity: 1;
 }
 
@@ -40,11 +40,15 @@ td {
     letter-spacing: 1px;
 }
 .btntorles{
-    background:rgb(191, 113, 54);
-    border: rgb(111, 66, 31) 1px solid !important;
     border-radius: 7px;
     letter-spacing: 3px;
 }
+
+.btn-light{
+    background:rgb(0, 219, 0) !important;
+    border: rgb(0, 219, 0) solid 1px;
+}
+
 
 .gomb {
     background-color: rgb(111, 66, 31);
@@ -312,7 +316,6 @@ main {
     padding: 14px;
     font-size: 16px;
 }
-
 .dropdown-menu {
     border-radius: 12px;
     padding: 6px;
@@ -323,4 +326,17 @@ main {
 }
 .input-group {
     overflow: visible !important;
+}
+
+.modal-body input::placeholder{
+    color:gray;
+    opacity:0.8
+}
+.input-group input::placeholder{
+    color:gray;
+    opacity:0.8
+}
+
+#receptekGrid {
+    align-items: flex-start;
 }

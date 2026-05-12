@@ -8,9 +8,7 @@
     <title>Receptek - Receptkönyv</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="mt-0">
@@ -50,7 +48,7 @@
             <div class="input-group input-group-lg shadow-sm rounded-3 overflow-hidden">
 
                 <input type="text" id="searchInput" class="form-control border-0"
-                    placeholder="Keresés recept neve, leírás vagy hozzávaló...">
+                    placeholder="Keresés recept neve, leírás vagy hozzávaló alapján...">
 
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                     Szűrés
@@ -220,303 +218,318 @@
     </div>
 
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        let currentFilter = "all";
 
-        function setFilter(type) {
-            currentFilter = type;
-            applyFilters();
-        }
+const receptek = [
+    {
+        id: 1,
+        nev: "Klasszikus Magyar Gulyás",
+        kep: "https://image-api.nosalty.hu/nosalty/images/recipes/4o/Bt/klasszikus-magyar-gulyasleves.jpeg?w=1340&fit=crop&fm=webp&crop=670%2C460%2C%2C&h=920&mark=watermark.png&markpos=bottom-left&markpad=20&markw=&s=93d04ea86cd5d55d62ed9b8c04c8f98e",
+        leiras: "A hagyományos magyar gulyásleves igazi otthoni íze.",
+        hozzavalok: [
+            "500g marhahús",
+            "2 db hagyma",
+            "3 db paprika",
+            "2 db paradicsom",
+            "1 kk kömény",
+            "só, bors"
+        ],
+        elkeszites: "A húst felkockázzuk, hagymával megpirítjuk..."
+    },
 
-        function applyFilters() {
-            const value = document.getElementById("searchInput").value.toLowerCase();
+    {
+        id: 2,
+        nev: "Töltött káposzta",
+        kep: "https://cdn.mindmegette.hu/2024/04/0pyLxTE5eptk-pujflpxNT0Nu80bLxF_0jahFnueaJw/fill/0/0/no/1/aHR0cHM6Ly9jbXNjZG4uYXBwLmNvbnRlbnQucHJpdmF0ZS9jb250ZW50L2Y5YmU3MzJlMzI2OTQ5YmM4NzNhNzBlYWY0ZWUxNDZh.webp",
+        leiras: "Nagymama receptje szerint, télire tökéletes. foetel",
+        hozzavalok: [
+            "1 fej káposzta",
+            "500g darált hús",
+            "rizs",
+            "fűszerek"
+        ],
+        elkeszites: "A káposzta leveleit leforrázzuk..."
+    },
 
-            let filtered = receptek.filter(r =>
-                r.nev.toLowerCase().includes(value) ||
-                r.leiras.toLowerCase().includes(value) ||
-                r.hozzavalok.some(h => h.toLowerCase().includes(value))
+    {
+        id: 3,
+        nev: "Csirkepaprikás nokedlivel",
+        kep: "letöltés.jpg",
+        leiras: "Gyors, finom, család kedvence, foetel",
+        hozzavalok: [
+            "600g csirkecomb",
+            "2 db paprika",
+            "1 dl tejföl",
+            "1 kk pirospaprika"
+        ],
+        elkeszites: "A húst megpirítjuk, paprikával ízesítjük"
+    },
+
+    {
+        id: 4,
+        nev: "Mákos guba vaníliasodóval",
+        kep: "guba.jpg",
+        leiras: "Puha kifli szeletek édes mákkal és meleg vaníliasodóval leöntve, igazi klasszikus magyar desszert. vegán",
+        hozzavalok: [
+            "kifli",
+            "darál mák",
+            "cukor",
+            "tej",
+            "vanília",
+            "tojás"
+        ],
+        elkeszites: "A kiflit felkarikázzuk, mákkal összekeverjük, majd vaníliasodóval meglocsolva sütőben átmelegítjük."
+    },
+
+    {
+        id: 5,
+        nev: "Somlói galuska",
+        kep: "somloi.jpg",
+        leiras: "A legismertebb magyar édesség.",
+        hozzavalok: [
+            "piskóta",
+            "dió",
+            "csokoládékrém",
+            "rum"
+        ],
+        elkeszites: "Rétegesen összerakjuk..."
+    },
+
+    {
+        id: 6,
+        nev: "Csokoládés piskóta pohárdesszert",
+        kep: "csokipiskota.jpg",
+        leiras: "Krémes csokoládé és piskóta rétegek egy pohárban, könnyű és gyors desszert.",
+        hozzavalok: [
+            "piskóta",
+            "tejszín",
+            "csokoládé",
+            "cukor"
+        ],
+        elkeszites: "Rétegezd a hozzávalókat pohárba, majd hűtsd le tálalás előtt."
+    },
+
+    {
+        id: 7,
+        nev: "Vaníliás-diós krémes",
+        kep: "dioskremes.jpg",
+        leiras: "Lágy vaníliakrém pirított dióval, klasszikus magyar ízvilág.",
+        hozzavalok: [
+            "vaníliakrém",
+            "dió",
+            "cukor",
+            "tej"
+        ],
+        elkeszites: "A krémet elkészítjük, majd dióval megszórva tálaljuk."
+    },
+
+    {
+        id: 8,
+        nev: "Rumos csokoládétorta",
+        kep: "https://www.tutirecept.hu/wp-content/uploads/2026/01/Csokis-rumos-suti.jpg",
+        leiras: "Gazdag csokoládétorta enyhe rumos aromával, ünnepi desszert.",
+        hozzavalok: [
+            "liszt",
+            "csokoládé",
+            "rum",
+            "vaj",
+            "tojás"
+        ],
+        elkeszites: "A tésztát megsütjük, majd csokoládékrémmel és rummal ízesítjük."
+    }
+];
+
+let currentFilter = "all";
+
+function setFilter(type) {
+
+    currentFilter = type;
+
+    applyFilters();
+}
+
+function applyFilters() {
+
+    const value = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const filtered = receptek.filter(recept => {
+
+        const matchesSearch =
+
+            recept.nev.toLowerCase().includes(value) ||
+
+            recept.leiras.toLowerCase().includes(value) ||
+
+            recept.hozzavalok.some(h =>
+                h.toLowerCase().includes(value)
             );
 
-            if (currentFilter !== "all") {
-                filtered = filtered.filter(r =>
-                    r.leiras.toLowerCase().includes(currentFilter) ||
-                    r.nev.toLowerCase().includes(currentFilter)
-                );
-            }
+        const matchesFilter =
 
-            renderReceptek(filtered);
-        }
+            currentFilter === "all" ||
 
-        document.getElementById("searchInput").addEventListener("input", applyFilters);
+            recept.leiras.toLowerCase().includes(currentFilter) ||
 
+            recept.nev.toLowerCase().includes(currentFilter);
 
-        document.addEventListener("DOMContentLoaded", function () {
+        return matchesSearch && matchesFilter;
+    });
 
-            const regBtn = document.querySelector(
-                "#registerModal .modal-footer button"
-            );
+    renderReceptek(filtered);
+}
 
-            regBtn.addEventListener("click", function () {
+function renderReceptek(lista = receptek) {
 
-                const inputs = document.querySelectorAll(
-                    "#registerModal input"
-                );
+    const container = document.getElementById("receptekGrid");
 
-                const data = {
-                    user: inputs[0].value,
-                    email: inputs[1].value,
-                    pass: inputs[2].value,
-                };
-
-                if (
-                    data.user &&
-                    data.email &&
-                    data.pass
-                ) {
-
-                    alert(
-                        `Sikeres regisztráció, üdvözlünk ${data.user}!`
-                    );
-
-                    bootstrap.Modal.getInstance(
-                        document.getElementById("registerModal")
-                    ).hide();
-
-                    inputs.forEach((i) => (i.value = ""));
-
-                } else {
-
-                    alert("Kérlek, tölts ki minden mezőt!");
-
-                }
-
-            });
-
-            const loginBtn = document.querySelector(
-                "#loginModal .modal-footer button"
-            );
-
-            loginBtn.addEventListener("click", function () {
-
-                const inputs = document.querySelectorAll(
-                    "#loginModal input"
-                );
-
-                const user = inputs[0].value;
-                const pass = inputs[1].value;
-
-                if (user && pass) {
-
-                    alert(
-                        `Szia ${user}, sikeresen beléptél!`
-                    );
-
-                    bootstrap.Modal.getInstance(
-                        document.getElementById("loginModal")
-                    ).hide();
-
-                    document.getElementById("userButtons")
-                        .innerHTML = `
-            <span class="fw-bold text-white">
-                👤 ${user}
-            </span>
-
-            <button class="btn btn-outline-light btn-sm ms-2"
-                onclick="location.reload()">
-                Kijelentkezés
-            </button>
-        `;
-
-                } else {
-
-                    alert("Hibás felhasználónév vagy jelszó!");
-
-                }
-
-            });
-
-        });
-
-        let receptek = [
-            {
-                id: 1,
-                nev: "Klasszikus Magyar Gulyás",
-                kep: "https://image-api.nosalty.hu/nosalty/images/recipes/4o/Bt/klasszikus-magyar-gulyasleves.jpeg?w=1340&fit=crop&fm=webp&crop=670%2C460%2C%2C&h=920&mark=watermark.png&markpos=bottom-left&markpad=20&markw=&s=93d04ea86cd5d55d62ed9b8c04c8f98e",
-                leiras: "A hagyományos magyar gulyásleves igazi otthoni íze.",
-                hozzavalok: ["500g marhahús", "2 db hagyma", "3 db paprika", "2 db paradicsom", "1 kk kömény", "só, bors"],
-                elkeszites: "A húst felkockázzuk, hagymával megpirítjuk..."
-            },
-            {
-                id: 2,
-                nev: "Töltött káposzta",
-                kep: "https://cdn.mindmegette.hu/2024/04/0pyLxTE5eptk-pujflpxNT0Nu80bLxF_0jahFnueaJw/fill/0/0/no/1/aHR0cHM6Ly9jbXNjZG4uYXBwLmNvbnRlbnQucHJpdmF0ZS9jb250ZW50L2Y5YmU3MzJlMzI2OTQ5YmM4NzNhNzBlYWY0ZWUxNDZh.webp",
-                leiras: "Nagymama receptje szerint, télire tökéletes. foetel",
-                hozzavalok: ["1 fej káposzta", "500g darált hús", "rizs", "fűszerek"],
-                elkeszites: "A káposzta leveleit leforrázzuk..."
-            },
-            {
-                id: 3,
-                nev: "Csirkepaprikás nokedlivel",
-                kep: "letöltés.jpg",
-                leiras: "Gyors, finom, család kedvence, foetel",
-                hozzavalok: ["600g csirkecomb", "2 db paprika", "1 dl tejföl", "1 kk pirospaprika"],
-                elkeszites: "A húst megpirítjuk, paprikával ízesítjük"
-            },
-            {
-                id: 4,
-                nev: "Mákos guba vaníliasodóval",
-                kep: "guba.jpg",
-                leiras: "Puha kifli szeletek édes mákkal és meleg vaníliasodóval leöntve, igazi klasszikus magyar desszert.vegán",
-                hozzavalok: ["kifli", "darál mák", "cukor", "tej", "vanília", "tojás"],
-                elkeszites: "A kiflit felkarikázzuk, mákkal összekeverjük, majd vaníliasodóval meglocsolva sütőben átmelegítjük."
-            },
-            {
-                id: 5,
-                nev: "Somlói galuska",
-                kep: "somloi.jpg",
-                leiras: "A legismertebb magyar édesség.",
-                hozzavalok: ["piskóta", "dió", "csokoládékrém", "rum"],
-                elkeszites: "Rétegesen összerakjuk..."
-            },
-            {
-                id: 6,
-                nev: "Csokoládés piskóta pohárdesszert",
-                kep: "csokipiskota.jpg",
-                leiras: "Krémes csokoládé és piskóta rétegek egy pohárban, könnyű és gyors desszert.",
-                hozzavalok: ["piskóta", "tejszín", "csokoládé", "cukor"],
-                elkeszites: "Rétegezd a hozzávalókat pohárba, majd hűtsd le tálalás előtt."
-            },
-            {
-                id: 7,
-                nev: "Vaníliás-diós krémes",
-                kep: "dioskremes.jpg",
-                leiras: "Lágy vaníliakrém pirított dióval, klasszikus magyar ízvilág.",
-                hozzavalok: ["vaníliakrém", "dió", "cukor", "tej"],
-                elkeszites: "A krémet elkészítjük, majd dióval megszórva tálaljuk."
-            },
-            {
-                id: 8,
-                nev: "Rumos csokoládétorta",
-                kep: "https://www.tutirecept.hu/wp-content/uploads/2026/01/Csokis-rumos-suti.jpg",
-                leiras: "Gazdag csokoládétorta enyhe rumos aromával, ünnepi desszert.",
-                hozzavalok: ["liszt", "csokoládé", "rum", "vaj", "tojás"],
-                elkeszites: "A tésztát megsütjük, majd csokoládékrémmel és rummal ízesítjük."
-            }
-
-
-        ];
-
-        function renderReceptek() {
-            const container = document.getElementById('receptekGrid');
-            container.innerHTML = '';
-
-            receptek.forEach(recept => {
-                const cardHTML = `
-                <div class="col">
-                    <div class="card h-100 recept-kartya shadow adat">
-                        <img src="${recept.kep}" class="card-img-top recept-kep" alt="${recept.nev}">
-
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">${recept.nev}</h5>
-                            <p class="card-text flex-grow-1">${recept.leiras}</p>
-
-                            <button class="btn btn-light mb-2" data-bs-toggle="collapse" 
-                                    data-bs-target="#collapse${recept.id}">
-                                Részletek ▼
-                            </button>
-
-                            <div class="collapse collapse-content" id="collapse${recept.id}">
-                                <strong>Hozzávalók:</strong>
-                                <ul class="small">
-                                    ${recept.hozzavalok.map(h => `<li>${h}</li>`).join('')}
-                                </ul>
-                                <strong>Elkészítés:</strong>
-                                <p class="small">${recept.elkeszites}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-                container.innerHTML += cardHTML;
-            });
-        }
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderReceptek();
-
-
-        });
-
-        function renderReceptek(lista = receptek) {
-    const container = document.getElementById('receptekGrid');
-    container.innerHTML = '';
-
-    lista.forEach(recept => {
+    container.innerHTML = lista.map(recept => {
 
         const collapseId = `collapse-${recept.id}`;
 
-        const cardHTML = `
+        return `
         <div class="col">
+
             <div class="card h-100 recept-kartya shadow adat">
 
-                <img src="${recept.kep}" class="card-img-top recept-kep" alt="${recept.nev}">
+                <img
+                    src="${recept.kep}"
+                    class="card-img-top recept-kep"
+                    alt="${recept.nev}"
+                >
 
                 <div class="card-body d-flex flex-column">
 
-                    <h5 class="card-title">${recept.nev}</h5>
+                    <h5 class="card-title">
+                        ${recept.nev}
+                    </h5>
 
-                    <p class="card-text flex-grow-1">${recept.leiras}</p>
+                    <p class="card-text flex-grow-1">
+                        ${recept.leiras}
+                    </p>
 
-                    <button class="btn btn-light mb-2"
+                    <button
+                        class="btn btn-primary gomb mb-2"
                         data-bs-toggle="collapse"
-                        data-bs-target="#${collapseId}">
+                        data-bs-target="#${collapseId}"
+                    >
                         Részletek ▼
                     </button>
 
                     <div class="collapse collapse-box" id="${collapseId}">
+
                         <strong>Hozzávalók:</strong>
+
                         <ul class="small">
-                            ${recept.hozzavalok.map(h => `<li>${h}</li>`).join('')}
+                            ${recept.hozzavalok
+                                .map(h => `<li>${h}</li>`)
+                                .join("")}
                         </ul>
 
                         <strong>Elkészítés:</strong>
-                        <p class="small">${recept.elkeszites}</p>
+
+                        <p class="small">
+                            ${recept.elkeszites}
+                        </p>
+
                     </div>
 
                 </div>
             </div>
         </div>`;
 
-        container.innerHTML += cardHTML;
+    }).join("");
+}
+
+function setupAuth() {
+
+    const regBtn = document.querySelector(
+        "#registerModal .modal-footer button"
+    );
+
+    regBtn.addEventListener("click", () => {
+
+        const inputs = document.querySelectorAll(
+            "#registerModal input"
+        );
+
+        const [userInput, emailInput, passInput] = inputs;
+
+        const user = userInput.value.trim();
+        const email = emailInput.value.trim();
+        const pass = passInput.value.trim();
+
+        if (!user || !email || !pass) {
+
+            alert("Kérlek, tölts ki minden mezőt!");
+
+            return;
+        }
+
+        alert(`Sikeres regisztráció, üdvözlünk ${user}!`);
+
+        bootstrap.Modal
+            .getInstance(document.getElementById("registerModal"))
+            .hide();
+
+        inputs.forEach(input => input.value = "");
+    });
+
+    const loginBtn = document.querySelector(
+        "#loginModal .modal-footer button"
+    );
+
+    loginBtn.addEventListener("click", () => {
+
+        const inputs = document.querySelectorAll(
+            "#loginModal input"
+        );
+
+        const user = inputs[0].value.trim();
+        const pass = inputs[1].value.trim();
+
+        if (!user || !pass) {
+
+            alert("Hibás felhasználónév vagy jelszó!");
+
+            return;
+        }
+
+        alert(`Szia ${user}, sikeresen beléptél!`);
+
+        bootstrap.Modal
+            .getInstance(document.getElementById("loginModal"))
+            .hide();
+
+        document.getElementById("userButtons").innerHTML = `
+            <span class="fw-bold text-white">
+                👤 ${user}
+            </span>
+
+            <button
+                class="btn btn-outline-light btn-sm ms-2"
+                onclick="location.reload()"
+            >
+                Kijelentkezés
+            </button>
+        `;
     });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
 
-        function setupFilter() {
-            const input = document.getElementById("searchInput");
+    renderReceptek();
 
-            input.addEventListener("input", function () {
-                const value = this.value.toLowerCase();
+    setupAuth();
 
-                const filtered = receptek.filter(r =>
-                    r.nev.toLowerCase().includes(value) ||
-                    r.leiras.toLowerCase().includes(value) ||
-                    r.hozzavalok.some(h => h.toLowerCase().includes(value))
-                );
+    document
+        .getElementById("searchInput")
+        .addEventListener("input", applyFilters);
+});
 
-                renderReceptek(filtered);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderReceptek();
-            setupFilter();
-        });
-    </script>
+</script>
 </body>
 
 </html>
