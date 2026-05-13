@@ -4,6 +4,14 @@ body {
     
 }
 
+.navbar-toggler {
+    border-color: white;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
 body::-webkit-scrollbar {
     display: none; 
 }
@@ -55,7 +63,8 @@ td {
     border: rgb(133, 71, 24) 1px solid !important;
     letter-spacing: 3px;
 }
-button:hover {
+
+button:hover, a:hover {
     background:rgb(191, 113, 54) !important ;
     
 }
